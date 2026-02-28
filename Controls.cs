@@ -310,112 +310,98 @@ public class Controls : MonoBehaviour
             }
         }
         if (putIngr3.WasPressedThisFrame())
-        {
-            switch (numStation)
+{
+    switch (numStation)
+    {
+        case 1:
+            if (!is_Grande && cantVasos == 1)
             {
-                //station toppings, chile
-                case 1:
-
-                    if (is_Grande == false && cantVasos == 1)
-                    {
-                        Instantiate(chileChico, ingrLoadChicoTopping.position, ingrLoadChicoTopping.rotation);
-                        toppingPlayer = "chile";
-                    }
-                    if (is_Grande == true && cantVasos == 1)
-                    {
-                        Instantiate(chileGrande, ingrLoadGrandeTopping.position, ingrLoadGrandeTopping.rotation);
-                        toppingPlayer = "chile";
-                    }
-                    break;
-                //station salsas, aguaChile
-                case 2:
-                    if (is_Grande == false && cantVasos == 1)
-                    {
-                        Instantiate(aguaChileChico, ingrLoadChicoSalsa.position, ingrLoadChicoSalsa.rotation);
-                        salsaPlayer = "aguaChile";
-                    }
-                    if (is_Grande == true && cantVasos == 1)
-                    {
-                        Instantiate(aguaChileGrande, ingrLoadGrandeSalsa.position, ingrLoadGrandeSalsa.rotation);
-                        salsaPlayer = "aguaChile";
-                    }
-                    break;
-                //station camaron, empanizado
-                case 3:
-                    if (is_Grande == false && cantVasos == 1)
-                    {
-                        Instantiate(empaChico, ingrLoadChicoCamaron.position, ingrLoadChicoCamaron.rotation);
-                        camaronPlayer = "empanizado";
-                    }
-                    if (is_Grande == true && cantVasos == 1)
-                    {
-                        Instantiate(empaGrande, ingrLoadGrandeCamaron.position, ingrLoadGrandeCamaron.rotation);
-                        camaronPlayer = "empanizado";
-                    }
-                    break;
+                Instantiate(chileChico, ingrLoadChicoTopping.position, ingrLoadChicoTopping.rotation);
+                toppingPlayer = "chile";
             }
-
-            if (putIngr4.WasPressedThisFrame())
+            else if (is_Grande && cantVasos == 1)
             {
-                switch (numStation)
-                {
-                    //station salsas, breMis
-                    case 2:
-                        if (is_Grande == false && cantVasos == 1)
-                        {
-                            Instantiate(breMisChico, ingrLoadChicoSalsa.position, ingrLoadChicoSalsa.rotation);
-                            salsaPlayer = "breMis";
-                        }
-                        if (is_Grande == true && cantVasos == 1)
-                        {
-                            Instantiate(breMisGrande, ingrLoadGrandeSalsa.position, ingrLoadGrandeSalsa.rotation);
-                            salsaPlayer = "breMis";
-                        }
-                        break;
-                    //station camaron, eliminar objeto
-                    case 3:
-                        orden = GameObject.FindFirstObjectByType<Orden>();
-                        toppingOrder = orden.GetOrderTop();
-                        salsaOrder = orden.GetOrderSalsa();
-                        vasoOrder = orden.GetOrderVaso();
-                        camaronOrder = orden.GetOrderCamaron();
-
-                        sP = GameObject.FindGameObjectWithTag("salsa");
-                        cP = GameObject.FindGameObjectWithTag("camaron");
-                        vP = GameObject.FindGameObjectWithTag("vaso");
-                        tP = GameObject.FindGameObjectWithTag("topping");
-
-
-                        if (salsaOrder == salsaPlayer && toppingOrder == toppingPlayer && vasoOrder == vasoPlayer && camaronOrder == camaronPlayer)
-                        {
-
-                            Destroy(sP);
-                            Destroy(cP);
-                            Destroy(vP);
-                            Destroy(tP);
-
-                            cantVasos--;
-                        }
-                        else
-                        {
-                            SceneManager.LoadScene(sceneName);
-                        }
-
-
-
-
-                        break;
-                }
+                Instantiate(chileGrande, ingrLoadGrandeTopping.position, ingrLoadGrandeTopping.rotation);
+                toppingPlayer = "chile";
             }
+            break;
 
+        case 2:
+            if (!is_Grande && cantVasos == 1)
+            {
+                Instantiate(aguaChileChico, ingrLoadChicoSalsa.position, ingrLoadChicoSalsa.rotation);
+                salsaPlayer = "aguaChile";
+            }
+            else if (is_Grande && cantVasos == 1)
+            {
+                Instantiate(aguaChileGrande, ingrLoadGrandeSalsa.position, ingrLoadGrandeSalsa.rotation);
+                salsaPlayer = "aguaChile";
+            }
+            break;
 
-
-
-
-
-
-        }
+        case 3:
+            if (!is_Grande && cantVasos == 1)
+            {
+                Instantiate(empaChico, ingrLoadChicoCamaron.position, ingrLoadChicoCamaron.rotation);
+                camaronPlayer = "empanizado";
+            }
+            else if (is_Grande && cantVasos == 1)
+            {
+                Instantiate(empaGrande, ingrLoadGrandeCamaron.position, ingrLoadGrandeCamaron.rotation);
+                camaronPlayer = "empanizado";
+            }
+            break;
     }
 }
-    
+
+if (putIngr4.WasPressedThisFrame())
+{
+    switch (numStation)
+    {
+        case 2:
+            if (!is_Grande && cantVasos == 1)
+            {
+                Instantiate(breMisChico, ingrLoadChicoSalsa.position, ingrLoadChicoSalsa.rotation);
+                salsaPlayer = "breMis";
+            }
+            else if (is_Grande && cantVasos == 1)
+            {
+                Instantiate(breMisGrande, ingrLoadGrandeSalsa.position, ingrLoadGrandeSalsa.rotation);
+                salsaPlayer = "breMis";
+            }
+            break;
+
+        case 3:
+            orden = GameObject.FindFirstObjectByType<Orden>();
+
+            toppingOrder = orden.GetOrderTop();
+            salsaOrder = orden.GetOrderSalsa();
+            vasoOrder = orden.GetOrderVaso();
+            camaronOrder = orden.GetOrderCamaron();
+
+            sP = GameObject.FindGameObjectWithTag("salsa");
+            cP = GameObject.FindGameObjectWithTag("camaron");
+            vP = GameObject.FindGameObjectWithTag("vaso");
+            tP = GameObject.FindGameObjectWithTag("topping");
+
+            if (salsaOrder == salsaPlayer &&
+                toppingOrder == toppingPlayer &&
+                vasoOrder == vasoPlayer &&
+                camaronOrder == camaronPlayer)
+            {
+                if (sP != null) Destroy(sP);
+                if (cP != null) Destroy(cP);
+                if (vP != null) Destroy(vP);
+                if (tP != null) Destroy(tP);
+
+                cantVasos--;
+            }
+            else
+            {
+                SceneManager.LoadScene(sceneName);
+            }
+            break;
+    }
+}
+
 
