@@ -17,14 +17,14 @@ public class Registradora : MonoBehaviour
     [SerializeField] float timer;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        Instantiate(order, loadOrder1.position, loadOrder1.rotation, null);
-        numOrder++;
-        numOrderWorld++;
-        orderForTimer++;
-
-    }
+  void Start()
+{
+    Instantiate(order, loadOrder1.position, loadOrder1.rotation);
+    numOrder++;
+    numOrderWorld++;
+    orderForTimer++;
+    timer = timeMax; // IMPORTANTE ELI NO TOQUES
+}
     public float GetnumOrder()
     {
         return numOrder;
@@ -57,37 +57,31 @@ public class Registradora : MonoBehaviour
 
         //for (float numOrder = 0; numOrder % 10 == 0; seconds--);
 
-       if (timer <= 0)
-        {
-            if (numOrder != 50 || numOrder != 100)
-            {
-                Instantiate(order, loadOrder1.position, loadOrder1.rotation, null);
-                numOrder++;
-                numOrderWorld++;
-                orderForTimer++;
-            }
-            if (numOrder == 50)
-            {
-                Instantiate(ordenMarco, loadOrder1.position, loadOrder1.rotation, null);
-                numOrder++;
-                numOrderWorld++;
-                orderForTimer++;
-            }
+if (timer <= 0)
+{
+    if (numOrder != 50 && numOrder != 100)
+    {
+        Instantiate(order, loadOrder1.position, loadOrder1.rotation);
+    }
+    else if (numOrder == 50)
+    {
+        Instantiate(ordenMarco, loadOrder1.position, loadOrder1.rotation);
+    }
+    else if (numOrder == 100)
+    {
+        Instantiate(ordenChris, loadOrder1.position, loadOrder1.rotation);
+    }
 
-            if (numOrder == 100)
-            {
-                Instantiate(ordenChris, loadOrder1.position, loadOrder1.rotation, null);
-                numOrder++;
-                numOrderWorld++;
-                orderForTimer++;
-            }
+    numOrder++;
+    numOrderWorld++;
+    orderForTimer++;
 
-           timer = timeMax;
-
-        }
+    timer = timeMax;
+}
 
       
     }
 }
     
+
 
