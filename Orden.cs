@@ -127,10 +127,15 @@ public class Orden : MonoBehaviour
         return camaronOrder;
     }
 
-    public void DestroySelf()
+   public void DestroySelf()
+{
+    if (registradora != null)
     {
-        Destroy(gameObject);
+        registradora.QuitarOrden(gameObject);
     }
+
+    Destroy(gameObject);
+}
 
     // Update is called once per frame
     void Update()
@@ -147,3 +152,4 @@ public class Orden : MonoBehaviour
         }
     }
 }
+
