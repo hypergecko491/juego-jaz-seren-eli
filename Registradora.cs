@@ -1,6 +1,7 @@
 using Unity.VectorGraphics;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Collections.Generic;
 
 public class Registradora : MonoBehaviour
 {
@@ -24,7 +25,14 @@ public class Registradora : MonoBehaviour
     //[SerializeField] SpriteRenderer vasoGrandeEyes;
     //[SerializeField] Sprite googlyEyes;
     //[SerializeField] Sprite vasoNormal;
-
+public List<GameObject> ordenes = new List<GameObject>();
+public void QuitarOrden(GameObject orden)
+{
+    if (ordenes.Contains(orden))
+    {
+        ordenes.Remove(orden);
+    }
+}
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -151,5 +159,6 @@ public class Registradora : MonoBehaviour
     }
 }
     
+
 
 
