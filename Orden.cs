@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class Orden : MonoBehaviour
-
 {
     public Registradora registradora;
     //[SerializeField] GameObject otraOrden;
@@ -29,7 +28,7 @@ public class Orden : MonoBehaviour
     [SerializeField] Vector3 offsets;
     [SerializeField] Vector3 randomSpawnPosition;
     [SerializeField] Vector3 moveAway;
-   
+
     public int thisNumOrder;
 
     [SerializeField] float x1;
@@ -37,17 +36,25 @@ public class Orden : MonoBehaviour
     [SerializeField] float y1;
     [SerializeField] float y2;
 
-
     //[SerializeField] TMP_Text  textoNum;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        registradora = GameObject.Find("Registradora")?.GetComponent<Registradora>();
+        camTransform = GameObject.Find("Camara1")?.transform;
 
-        registradora = GameObject.Find("Registradora").GetComponent<Registradora>();
-        camTransform = GameObject.Find("Camara1").transform;
+        if (registradora == null)
+        {
+            Debug.LogError("Registradora no encontrada");
+            return;
+        }
 
-
+        if (camTransform == null)
+        {
+            Debug.LogError("Camara1 no encontrada");
+            return;
+        }
 
         int randomTopping = Random.Range(0, topping.Length);
         toppingPlace.sprite = topping[randomTopping];
@@ -93,21 +100,28 @@ public class Orden : MonoBehaviour
 
         //textoNum.text = "00" + thisNumOrder.ToString();
 
-
-        randomSpawnPosition = new Vector3(Random.Range(x1, x2), Random.Range(y1, y2), Random.Range(0, 2F));
+        randomSpawnPosition = new Vector3(
+            Random.Range(x1, x2),
+            Random.Range(y1, y2),
+            Random.Range(0, 2F)
+        );
     }
+
     public string GetOrderTop()
     {
         return toppingOrder;
     }
+
     public string GetOrderVaso()
     {
         return vasoOrder;
     }
+
     public string GetOrderSalsa()
     {
         return salsaOrder;
     }
+
     public string GetOrderCamaron()
     {
         return camaronOrder;
@@ -122,17 +136,14 @@ public class Orden : MonoBehaviour
     void Update()
     {
         transform.position = camTransform.position + offsets + randomSpawnPosition;
-
     }
+
     public void OnCollisionEnter(Collision other)
     {
         if (other.gameObject.CompareTag("Orden"))
         {
-            print("Me muevo " + thisNumOrder);
-            print(transform.position);
-            transform.position += randomSpawnPosition;
-            print(transform.position);
+            // En vez de sumarlo infinitamente, usamos moveAway
+            transform.position += moveAway;
         }
     }
 }
-
