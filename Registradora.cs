@@ -4,7 +4,7 @@ using UnityEngine.SceneManagement;
 
 public class Registradora : MonoBehaviour
 {
-    [SerializeField]BarraVida[] corazones;
+    [SerializeField] BarraVida[] corazones;
 
     [SerializeField] string sceneName;
     public int hp = 3;
@@ -23,11 +23,17 @@ public class Registradora : MonoBehaviour
     //[SerializeField] SpriteRenderer vasoEyes;
     //[SerializeField] SpriteRenderer vasoGrandeEyes;
     //[SerializeField] Sprite googlyEyes;
-   // [SerializeField] Sprite vasoNormal;
+    //[SerializeField] Sprite vasoNormal;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        if (loadOrder1 == null)
+        {
+            Debug.LogError("loadOrder1 no asignado en Registradora");
+            return;
+        }
+
         Instantiate(order, loadOrder1.position, loadOrder1.rotation, null);
         numOrder++;
         numOrderWorld++;
@@ -35,40 +41,49 @@ public class Registradora : MonoBehaviour
 
         timer = 10; // IMPORTANTE ELI NO TOQUES
 
+        ActivaCorazones(hp);
     }
+
     public void Pain()
     {
         hp--;
+        ActivaCorazones(hp);
     }
+
     public void AddStreak()
     {
         streak += Time.deltaTime;
     }
+
     public void RemoveStreak()
     {
         streak = 0;
     }
-   
+
     public int Hp()
     {
-
         return hp;
     }
+
     public int GetnumOrder()
     {
         return numOrder;
     }
+
     public void AddOrder()
-        {
+    {
         orderForTimer++;
     }
+
     public void ActivaCorazones(int hp)
     {
-        for(int i = 0; i < corazones.Length; i++)
+        if (corazones == null) return;
+
+        for (int i = 0; i < corazones.Length; i++)
         {
             if (i < hp)
-            { 
-                corazones[i].ActivateHp(); 
+            {
+                corazones[i].ActivateHp();
             }
             else
             {
@@ -79,13 +94,14 @@ public class Registradora : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {   //esto regula la vida y te hace perder
+    {
+        //esto regula la vida y te hace perder
         if (hp <= 0)
         {
             SceneManager.LoadScene(sceneName);
         }
 
-        if(numOrderWorld > 10)
+        if (numOrderWorld > 10)
         {
             SceneManager.LoadScene(sceneName);
         }
@@ -95,68 +111,45 @@ public class Registradora : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
         // esto maneja el tiempo
         if (orderForTimer > 9 && timeMax > 2)
         {
             orderForTimer = 0;
             timeMax--;
         }
+
         //esto maneja el tiempo x2
         timer -= Time.deltaTime;
 
-        //esto maneja el streak
-
-        //if (numOrder > 25 && numOrderWorld <= 4)
-        //{
-            //AddStreak();
-        //}
-        //else if (numOrder > 25 && numOrderWorld > 4)
-        //{
-       //     RemoveStreak();
-       // }
-
-       // if (streak > 5F)
-       // {
-       //     vasoEyes.sprite = googlyEyes;
-       //     vasoGrandeEyes.sprite = googlyEyes;
-       // }
-       // else
-       // {
-       //     vasoEyes.sprite = vasoNormal;
-       //     vasoEyes.sprite = vasoNormal;
-       // }
-
-
         //for (float numOrder = 0; numOrder % 10 == 0; seconds--); ESTO NO SE DESCOMENTA
 
-       if (timer <= 0)
+        if (timer <= 0)
         {
-            if (numOrder != 50 || numOrder != 100)
+            //  aumentar contador de zapes si no lees esto
+            if (numOrder != 50 && numOrder != 100)
             {
                 Instantiate(order, loadOrder1.position, loadOrder1.rotation, null);
-
             }
+
             if (numOrder == 50)
             {
                 Instantiate(ordenMarco, loadOrder1.position, loadOrder1.rotation, null);
-
             }
 
             if (numOrder == 100)
             {
                 Instantiate(ordenChris, loadOrder1.position, loadOrder1.rotation, null);
-
             }
+
             numOrder++;
             numOrderWorld++;
             orderForTimer++;
 
             timer = timeMax;
-
         }
-
-      
     }
 }
     
+
 
