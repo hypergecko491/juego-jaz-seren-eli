@@ -1,4 +1,6 @@
+using NUnit.Framework;
 using System.Collections;
+using System.Collections.Generic;
 using Unity.VectorGraphics;
 using UnityEditor;
 using UnityEngine;
@@ -11,6 +13,13 @@ public class Controls : MonoBehaviour
     //para obtener numOrder
     public Registradora registradora;
     public Orden orden;
+    public int hp;
+
+    //lo de la lista dinamica
+    public List<GameObject> ordenes = new ();
+    GameObject newOrder;
+    [SerializeField] int numOrderComplete;
+    [SerializeField] int listNum;
 
     public string vasoOrder;
     public string salsaOrder;
@@ -55,6 +64,9 @@ public class Controls : MonoBehaviour
 
     //cantidad de objetos
     public int cantVasos;
+    public int cantToppings;
+    public int cantSalsa;
+    public int cantCamaron;
     public bool is_Grande;
 
     //Esto son los ingredientes
@@ -106,7 +118,7 @@ public class Controls : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+
 
         registradora = GameObject.Find("Registradora").GetComponent<Registradora>();
 
@@ -124,11 +136,24 @@ public class Controls : MonoBehaviour
 
     }
 
+    public void AddOrdenList()
+    {
+        newOrder = GameObject.FindGameObjectWithTag("Orden");
+
+        ordenes.Add(newOrder);
+        listNum++;
+    }
+
     // Update is called once per frame
     void Update()
     {
+        int numOrder = registradora.GetnumOrder();
+        if (listNum < numOrder)
+        { AddOrdenList(); }
 
-        float numOrder = registradora.GetnumOrder();
+        
+
+
         //Esto cambia estaciones
         if (changeStationR.WasPressedThisFrame())
         {
@@ -202,43 +227,50 @@ public class Controls : MonoBehaviour
                 //station toppings, pepino
                 case 1:
 
-                    if (is_Grande == false && cantVasos == 1)
+                    if (is_Grande == false && cantVasos == 1 && cantToppings == 0)
                     {
                         Instantiate(pepinoChico, ingrLoadChicoTopping.position, ingrLoadChicoTopping.rotation);
                         toppingPlayer = "pepino";
+                        cantToppings++;
                     }
-                    if (is_Grande == true && cantVasos == 1)
+                    if (is_Grande == true && cantVasos == 1 && cantToppings == 0)
                     {
                         Instantiate(pepinoGrande, ingrLoadGrandeTopping.position, ingrLoadGrandeTopping.rotation);
                         toppingPlayer = "pepino";
+                        cantToppings++;
                     }
 
                     break;
                 //station salsas, clamato
                 case 2:
-                    if (is_Grande == false && cantVasos == 1)
+                    if (is_Grande == false && cantVasos == 1 && cantSalsa == 0)
                     {
                         Instantiate(clamatoChico, ingrLoadChicoSalsa.position, ingrLoadChicoSalsa.rotation);
                         salsaPlayer = "clamato";
+                        cantSalsa++;
                     }
-                    if (is_Grande == true && cantVasos == 1)
+                    if (is_Grande == true && cantVasos == 1 && cantSalsa == 0)
                     {
                         Instantiate(clamatoGrande, ingrLoadGrandeSalsa.position, ingrLoadGrandeSalsa.rotation);
                         salsaPlayer = "clamato";
+                        cantSalsa++;
                     }
 
                     break;
                 //station camaron, crudo
                 case 3:
-                    if (is_Grande == false && cantVasos == 1)
+                    if (is_Grande == false && cantVasos == 1 && cantCamaron == 0)
                     {
                         Instantiate(crudoChico, ingrLoadChicoCamaron.position, ingrLoadChicoCamaron.rotation);
                         camaronPlayer = "crudo";
+                        cantCamaron++;
+
                     }
-                    if (is_Grande == true && cantVasos == 1)
+                    if (is_Grande == true && cantVasos == 1 && cantCamaron == 0)
                     {
                         Instantiate(crudoGrande, ingrLoadGrandeCamaron.position, ingrLoadGrandeCamaron.rotation);
                         camaronPlayer = "crudo";
+                        cantCamaron++;
                     }
 
                     break;
@@ -270,138 +302,181 @@ public class Controls : MonoBehaviour
                 //station toppings, aguacate
                 case 1:
 
-                    if (is_Grande == false && cantVasos == 1)
+                    if (is_Grande == false && cantVasos == 1 && cantToppings == 0)
                     {
                         Instantiate(aguacateChico, ingrLoadChicoTopping.position, ingrLoadChicoTopping.rotation);
                         toppingPlayer = "aguacate";
+                        cantToppings++;
                     }
-                    if (is_Grande == true && cantVasos == 1)
+                    if (is_Grande == true && cantVasos == 1 && cantToppings == 0)
                     {
                         Instantiate(aguacateGrande, ingrLoadGrandeTopping.position, ingrLoadGrandeTopping.rotation);
                         toppingPlayer = "aguacate";
+                        cantToppings++;
                     }
                     break;
                 //station salsas, chevecha
                 case 2:
-                    if (is_Grande == false && cantVasos == 1)
+                    if (is_Grande == false && cantVasos == 1 && cantSalsa == 0)
                     {
                         Instantiate(chevechaChico, ingrLoadChicoSalsa.position, ingrLoadChicoSalsa.rotation);
                         salsaPlayer = "chevecha";
+                        cantSalsa++;
                     }
-                    if (is_Grande == true && cantVasos == 1)
+                    if (is_Grande == true && cantVasos == 1 && cantSalsa == 0)
                     {
                         Instantiate(chevechaGrande, ingrLoadGrandeSalsa.position, ingrLoadGrandeSalsa.rotation);
                         salsaPlayer = "chevecha";
+                        cantSalsa++;
                     }
                     break;
                 //station camaron, cocido
                 case 3:
-                    if (is_Grande == false && cantVasos == 1)
+                    if (is_Grande == false && cantVasos == 1 && cantCamaron == 0)
                     {
                         Instantiate(cocidoChico, ingrLoadChicoCamaron.position, ingrLoadChicoCamaron.rotation);
                         camaronPlayer = "cocido";
+                        cantCamaron++;
                     }
-                    if (is_Grande == true && cantVasos == 1)
+                    if (is_Grande == true && cantVasos == 1 && cantCamaron == 0)
                     {
                         Instantiate(cocidoGrande, ingrLoadGrandeCamaron.position, ingrLoadGrandeCamaron.rotation);
                         camaronPlayer = "cocido";
+                        cantCamaron++;
                     }
                     break;
             }
         }
         if (putIngr3.WasPressedThisFrame())
-{
-    switch (numStation)
-    {
-        case 1:
-            if (!is_Grande && cantVasos == 1)
+        {
+            switch (numStation)
             {
-                Instantiate(chileChico, ingrLoadChicoTopping.position, ingrLoadChicoTopping.rotation);
-                toppingPlayer = "chile";
-            }
-            else if (is_Grande && cantVasos == 1)
-            {
-                Instantiate(chileGrande, ingrLoadGrandeTopping.position, ingrLoadGrandeTopping.rotation);
-                toppingPlayer = "chile";
-            }
-            break;
+                //station toppings, chile
+                case 1:
 
-        case 2:
-            if (!is_Grande && cantVasos == 1)
-            {
-                Instantiate(aguaChileChico, ingrLoadChicoSalsa.position, ingrLoadChicoSalsa.rotation);
-                salsaPlayer = "aguaChile";
+                    if (is_Grande == false && cantVasos == 1 && cantToppings == 0)
+                    {
+                        Instantiate(chileChico, ingrLoadChicoTopping.position, ingrLoadChicoTopping.rotation);
+                        toppingPlayer = "chile";
+                        cantToppings++;
+                    }
+                    if (is_Grande == true && cantVasos == 1)
+                    {
+                        Instantiate(chileGrande, ingrLoadGrandeTopping.position, ingrLoadGrandeTopping.rotation);
+                        toppingPlayer = "chile";
+                        cantToppings++;
+                    }
+                    break;
+                //station salsas, aguaChile
+                case 2:
+                    if (is_Grande == false && cantVasos == 1 && cantSalsa == 0)
+                    {
+                        Instantiate(aguaChileChico, ingrLoadChicoSalsa.position, ingrLoadChicoSalsa.rotation);
+                        salsaPlayer = "aguaChile";
+                        cantSalsa++;
+                    }
+                    if (is_Grande == true && cantVasos == 1 && cantSalsa == 0)
+                    {
+                        Instantiate(aguaChileGrande, ingrLoadGrandeSalsa.position, ingrLoadGrandeSalsa.rotation);
+                        salsaPlayer = "aguaChile";
+                        cantSalsa++;
+                    }
+                    break;
+                //station camaron, empanizado
+                case 3:
+                    if (is_Grande == false && cantVasos == 1 && cantCamaron == 0)
+                    {
+                        Instantiate(empaChico, ingrLoadChicoCamaron.position, ingrLoadChicoCamaron.rotation);
+                        camaronPlayer = "empanizado";
+                        cantCamaron++;
+                    }
+                    if (is_Grande == true && cantVasos == 1 && cantCamaron == 0)
+                    {
+                        Instantiate(empaGrande, ingrLoadGrandeCamaron.position, ingrLoadGrandeCamaron.rotation);
+                        camaronPlayer = "empanizado";
+                        cantCamaron++;
+                    }
+                    break;
             }
-            else if (is_Grande && cantVasos == 1)
-            {
-                Instantiate(aguaChileGrande, ingrLoadGrandeSalsa.position, ingrLoadGrandeSalsa.rotation);
-                salsaPlayer = "aguaChile";
-            }
-            break;
+        }
 
-        case 3:
-            if (!is_Grande && cantVasos == 1)
+            if (putIngr4.WasPressedThisFrame())
             {
-                Instantiate(empaChico, ingrLoadChicoCamaron.position, ingrLoadChicoCamaron.rotation);
-                camaronPlayer = "empanizado";
+                switch (numStation)
+                {
+                    //station salsas, breMis
+                    case 2:
+                        if (is_Grande == false && cantVasos == 1 && cantSalsa == 0)
+                        {
+                            Instantiate(breMisChico, ingrLoadChicoSalsa.position, ingrLoadChicoSalsa.rotation);
+                            salsaPlayer = "breMis";
+                            cantSalsa++;
+                        }
+                        if (is_Grande == true && cantVasos == 1 && cantSalsa == 0)
+                        {
+                            Instantiate(breMisGrande, ingrLoadGrandeSalsa.position, ingrLoadGrandeSalsa.rotation);
+                            salsaPlayer = "breMis";
+                            cantSalsa++;
+                    }
+                        break;
+                    //station camaron, eliminar objeto
+                    case 3:
+                        GameObject thisOrder = ordenes[numOrderComplete];
+                    //orden = GameObject.FindFirstObjectByType<Orden>();
+                        orden = thisOrder.GetComponent<Orden>();
+                        toppingOrder = orden.GetOrderTop();
+                        salsaOrder = orden.GetOrderSalsa();
+                        vasoOrder = orden.GetOrderVaso();
+                        camaronOrder = orden.GetOrderCamaron();
+
+
+                    sP = GameObject.FindGameObjectWithTag("salsa");
+                        cP = GameObject.FindGameObjectWithTag("camaron");
+                        vP = GameObject.FindGameObjectWithTag("vaso");
+                        tP = GameObject.FindGameObjectWithTag("topping");
+                    
+                    
+
+                    if (salsaOrder == salsaPlayer && toppingOrder == toppingPlayer && vasoOrder == vasoPlayer && camaronOrder == camaronPlayer)
+                        {
+                        print("yay");
+                        
+
+                    }
+                        else
+                        {
+                            registradora.Pain();
+                        hp = registradora.Hp();
+                        registradora.ActivaCorazones(hp);
+                        
+                        
+
+                    }
+
+                    Destroy(sP);
+                    Destroy(cP);
+                    Destroy(vP);
+                    Destroy(tP);
+                    //orden.DestroySelf();
+                    cantVasos--;
+                    cantCamaron--;
+                    cantSalsa--;
+                    cantToppings--;
+                    numOrderComplete++;
+
+
+                    break;
+                }
             }
-            else if (is_Grande && cantVasos == 1)
-            {
-                Instantiate(empaGrande, ingrLoadGrandeCamaron.position, ingrLoadGrandeCamaron.rotation);
-                camaronPlayer = "empanizado";
-            }
-            break;
+
+
+
+
+
+
+
+        
     }
 }
-
-if (putIngr4.WasPressedThisFrame())
-{
-    switch (numStation)
-    {
-        case 2:
-            if (!is_Grande && cantVasos == 1)
-            {
-                Instantiate(breMisChico, ingrLoadChicoSalsa.position, ingrLoadChicoSalsa.rotation);
-                salsaPlayer = "breMis";
-            }
-            else if (is_Grande && cantVasos == 1)
-            {
-                Instantiate(breMisGrande, ingrLoadGrandeSalsa.position, ingrLoadGrandeSalsa.rotation);
-                salsaPlayer = "breMis";
-            }
-            break;
-
-        case 3:
-            orden = GameObject.FindFirstObjectByType<Orden>();
-
-            toppingOrder = orden.GetOrderTop();
-            salsaOrder = orden.GetOrderSalsa();
-            vasoOrder = orden.GetOrderVaso();
-            camaronOrder = orden.GetOrderCamaron();
-
-            sP = GameObject.FindGameObjectWithTag("salsa");
-            cP = GameObject.FindGameObjectWithTag("camaron");
-            vP = GameObject.FindGameObjectWithTag("vaso");
-            tP = GameObject.FindGameObjectWithTag("topping");
-
-            if (salsaOrder == salsaPlayer &&
-                toppingOrder == toppingPlayer &&
-                vasoOrder == vasoPlayer &&
-                camaronOrder == camaronPlayer)
-            {
-                if (sP != null) Destroy(sP);
-                if (cP != null) Destroy(cP);
-                if (vP != null) Destroy(vP);
-                if (tP != null) Destroy(tP);
-
-                cantVasos--;
-            }
-            else
-            {
-                SceneManager.LoadScene(sceneName);
-            }
-            break;
-    }
-}
-
+    
 
