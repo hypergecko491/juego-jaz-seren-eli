@@ -1,18 +1,27 @@
 using UnityEngine;
 
-public class FolllowCamera : MonoBehaviour
+public class FollowCamera : MonoBehaviour
 {
     [SerializeField] Transform camTransform;
     [SerializeField] Vector3 offsets;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+
     void Start()
     {
-        camTransform = GameObject.Find("Camara1").transform;
+        // Solo buscar si no fue asignada desde el Inspector
+        if (camTransform == null)
+        {
+            GameObject camObj = GameObject.Find("Camara1");
+            if (camObj != null)
+                camTransform = camObj.transform;
+            else
+                Debug.LogError("No se encontró Camara1 en la escena");
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    void LateUpdate()
     {
+        if (camTransform == null) return;
+
         transform.position = camTransform.position + offsets;
     }
 }
