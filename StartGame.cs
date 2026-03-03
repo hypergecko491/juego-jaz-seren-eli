@@ -4,18 +4,28 @@ using UnityEngine.SceneManagement;
 
 public class StartGame : MonoBehaviour
 {
-    //y
+    // y
     InputAction startGame;
     [SerializeField] string station;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+
     void Start()
     {
         startGame = InputSystem.actions.FindAction("Start");
+
+        if (startGame == null)
+        {
+            Debug.LogError("No se encontró la acción 'Start' en el Input System");
+        }
+        else
+        {
+            startGame.Enable();
+        }
     }
 
-    // Update is called once per frame
     void Update()
     {
+        if (startGame == null) return;
+
         if (startGame.WasPressedThisFrame())
         {
             SceneManager.LoadScene(station);
