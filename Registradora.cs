@@ -25,14 +25,17 @@ public class Registradora : MonoBehaviour
     //[SerializeField] SpriteRenderer vasoGrandeEyes;
     //[SerializeField] Sprite googlyEyes;
     //[SerializeField] Sprite vasoNormal;
-public List<GameObject> ordenes = new List<GameObject>();
-public void QuitarOrden(GameObject orden)
-{
-    if (ordenes.Contains(orden))
+
+    public List<GameObject> ordenes = new List<GameObject>();
+
+    public void QuitarOrden(GameObject orden)
     {
-        ordenes.Remove(orden);
+        if (ordenes.Contains(orden))
+        {
+            ordenes.Remove(orden);
+        }
     }
-}
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -42,14 +45,21 @@ public void QuitarOrden(GameObject orden)
             return;
         }
 
-        Instantiate(order, loadOrder1.position, loadOrder1.rotation, null);
-        numOrder++;
-        numOrderWorld++;
-        orderForTimer++;
+        CrearOrden(order);
 
         timer = 10; // IMPORTANTE ELI NO TOQUES
 
         ActivaCorazones(hp);
+    }
+
+    void CrearOrden(GameObject prefab)
+    {
+        GameObject nuevaOrden = Instantiate(prefab, loadOrder1.position, loadOrder1.rotation, null);
+        ordenes.Add(nuevaOrden);
+
+        numOrder++;
+        numOrderWorld++;
+        orderForTimer++;
     }
 
     public void Pain()
@@ -137,28 +147,22 @@ public void QuitarOrden(GameObject orden)
             //  aumentar contador de zapes si no lees esto
             if (numOrder != 50 && numOrder != 100)
             {
-                Instantiate(order, loadOrder1.position, loadOrder1.rotation, null);
+                CrearOrden(order);
             }
 
             if (numOrder == 50)
             {
-                Instantiate(ordenMarco, loadOrder1.position, loadOrder1.rotation, null);
+                CrearOrden(ordenMarco);
             }
 
             if (numOrder == 100)
             {
-                Instantiate(ordenChris, loadOrder1.position, loadOrder1.rotation, null);
+                CrearOrden(ordenChris);
             }
-
-            numOrder++;
-            numOrderWorld++;
-            orderForTimer++;
 
             timer = timeMax;
         }
     }
 }
-    
-
 
 
