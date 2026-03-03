@@ -34,10 +34,22 @@ public class Controls : MonoBehaviour
         putIngr4 = InputSystem.actions.FindAction("ingr4");
     }
 
+    void OnEnable()
+    {
+        if (putIngr4 != null)
+            putIngr4.Enable();
+    }
+
+    void OnDisable()
+    {
+        if (putIngr4 != null)
+            putIngr4.Disable();
+    }
+
     void Update()
     {
         // ENTREGAR ORDEN (estación camarón)
-        if (putIngr4.WasPressedThisFrame())
+        if (putIngr4 != null && putIngr4.WasPressedThisFrame())
         {
             CalificarOrden();
         }
@@ -73,7 +85,7 @@ public class Controls : MonoBehaviour
             registradora.ActivaCorazones(registradora.Hp());
         }
 
-        //me voy a matar si no jala esta vez
+        // eliminar orden evaluada
         registradora.ordenes.RemoveAt(0);
         Destroy(thisOrder);
 
